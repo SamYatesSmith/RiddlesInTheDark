@@ -1,5 +1,5 @@
 import time
-import sleep
+# import sleep
 import textwrap
 
 def wrap_text(text, width=80):
@@ -9,7 +9,6 @@ def wrap_text(text, width=80):
     return '\n'.join(textwrap.wrap(text, width))
 
 class RiddleGame: 
-
     def __init__(self, filepath=None):
         """
         Initialises the riddle game with riddles loaded from external file
@@ -35,17 +34,31 @@ class RiddleGame:
         Gets user input with a specific prompt
         """
 
-    def displays_intro_message(self):
+    def display_intro_message(self):
         """
         Displays introductory message of the game, explains rules & how to play
         """
+        intro_message = (
+            "Welcome to Riddles in the Dark!\n\n"
 
-    def display_letter_count_hint(self)
+            "Riddles in the Dark is a short riddle based game.  In order to claim victory, the player must accrue as few points as possible. "
+            "Points are incremented by answering riddles incorrectly, asking for hints, using too many hints and skipping the current question.\n" 
+            "Players are allowed 5 hints per question.  These hints will accrue 1 point each.\n"
+            "However, if a player users more than 5 hints, they are punished with an incorrect answers' point value.\n"
+            "When a player answers incorrectly, they recieve 2 points.\n"
+            "When a player skips the question, they will recieve a 10 point penalty.\n"
+            "Players are provided with underscores which represent the number of letters in the answer.\n\n"
+            "Good luck, and Have fun!"
+        )
+        print(wrap_text(intro_message))
+
+
+    def display_letter_count_hint(self):
         """
         Dispalys a hint for the current riddle, shows the number of letters in the answer as underscores
         """
 
-    def offer_hint(self)
+    def offer_hint(self):
         """
         Hint management, increments score if hint is requested
         """
@@ -70,7 +83,7 @@ class RiddleGame:
         Displays a countdown from 3 to 1 to signal the beginning of the game
         """
 
-    def play_game()
+    def play_game():
         """
         Starts and manages games flow, from choosing the games mode to conclusion
         """
@@ -89,7 +102,9 @@ class RiddleGame:
         """
         Calls the method to play the game
         """
+        self.display_intro_message()
 
-
+game = RiddleGame(filepath='requirements.txt')
+game.play()
 
     
