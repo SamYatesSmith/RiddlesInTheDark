@@ -13,11 +13,21 @@ class RiddleGame:
         """
         Initialises the riddle game with riddles loaded from external file
         """
+        self.questions = []
+        self.answer = []
+        self.hints = []
+        self.player_scores = [0, 0]
+        self.current_player = 0
+        self.player_mode = 1
+        self.player_names = ["Player 1", "Player 2"]
+            if filepath: 
+                self.load_questions(filepath)
 
     def load_questions(self, filepath):
         """
         Loads questions, answers and hints from a specified file.
         """
+        
 
     def choose_game_mode(self):
         """
