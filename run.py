@@ -20,29 +20,57 @@ class RiddleGame:
         self.current_player = 0
         self.player_mode = 1
         self.player_names = ["Player 1", "Player 2"]
-            if filepath: 
-                self.load_questions(filepath)
+        if filepath: 
+            self.load_questions(filepath)
 
     def load_questions(self, filepath):
         """
         Loads questions, answers and hints from a specified file.
         """
-        
+        try:
+            with open(filepath, 'r') as file:
+                lines = file.readlines()
 
-    def choose_game_mode(self):
-        """
-        Prompts the user to choose the game mode, either single player or two players. Enquire after player names.
-        """
+            temp_hints = []
+            for line in lines:
+                line = line.strip()
+                if line.startswith("Q: "):
+                    self.questions.append(line[3:])
+                    if temp_hints:
+                        self.hints.append(temp_hints)
+                        temp_hints = []
+                elif line.startswith("A: "):
+                    self.answer.append(line[3:])
+                else:
+                    temp_hints.append(line)
+            if temp_hints:
+                    self.hints.append(temp_hints)
+        except FileNotFoundError:
+            print("Error: The file path provided does not exist.  Please check the file path and give it another whirl.")
 
-    def shuffle_questions(self):
-        """
-        Randomly shuffles the order of questions, answers
-        """
+    def print_loaded_data(self):
+        for i, question in enumerate(self.questions):
+            print(f"Question {i+1}: {question}")
+            print(f"Answer: {self.answer[i]}")
+            print(f"Hints:")
+            for hint in self.hints[i]:
+                print(f" - {hint}")
+            print()    
 
-    def get_user_input(self):
-        """
-        Gets user input with a specific prompt
-        """
+    # def choose_game_mode(self):
+    #     """
+    #     Prompts the user to choose the game mode, either single player or two players. Enquire after player names.
+    #     """
+
+    # def shuffle_questions(self):
+    #     """
+    #     Randomly shuffles the order of questions, answers
+    #     """
+
+    # def get_user_input(self):
+    #     """
+    #     Gets user input with a specific prompt
+    #     """
 
     def display_intro_message(self):
         """
@@ -63,50 +91,50 @@ class RiddleGame:
         print(wrap_text(intro_message))
 
 
-    def display_letter_count_hint(self):
-        """
-        Dispalys a hint for the current riddle, shows the number of letters in the answer as underscores
-        """
+    # def display_letter_count_hint(self):
+    #     """
+    #     Dispalys a hint for the current riddle, shows the number of letters in the answer as underscores
+    #     """
 
-    def offer_hint(self):
-        """
-        Hint management, increments score if hint is requested
-        """
+    # def offer_hint(self):
+    #     """
+    #     Hint management, increments score if hint is requested
+    #     """
 
-    def handle_question(self, question, answer, hints):
-        """
-        Handles logic for askign a question. Takes users response, provides hint and skips
-        """
+    # def handle_question(self, question, answer, hints):
+    #     """
+    #     Handles logic for askign a question. Takes users response, provides hint and skips
+    #     """
 
-    def handle_turn(self):
-        """
-        Manages a single turn for a player by presenting them woth a question
-        """
+    # def handle_turn(self):
+    #     """
+    #     Manages a single turn for a player by presenting them woth a question
+    #     """
 
-    def next_player(self):
-        """
-        Switches th ecurrent player in 2-player game mode
-        """
+    # def next_player(self):
+    #     """
+    #     Switches th ecurrent player in 2-player game mode
+    #     """
 
-    def countdown(self):
-        """
-        Displays a countdown from 3 to 1 to signal the beginning of the game
-        """
+    # def countdown(self):
+    #     """
+    #     Displays a countdown from 3 to 1 to signal the beginning of the game
+    #     """
 
-    def play_game():
-        """
-        Starts and manages games flow, from choosing the games mode to conclusion
-        """
+    # def play_game():
+    #     """
+    #     Starts and manages games flow, from choosing the games mode to conclusion
+    #     """
 
-    def conclude_game(self):
-        """
-        Wraps up the game by dispalying the total scores and determining the winner
-        """
+    # def conclude_game(self):
+    #     """
+    #     Wraps up the game by dispalying the total scores and determining the winner
+    #     """
     
-    def sudden_death(self):
-        """
-        Initiates sudden death mode following a 2 player tie
-        """
+    # def sudden_death(self):
+    #     """
+    #     Initiates sudden death mode following a 2 player tie
+    #     """
 
     def play(self):
         """
@@ -116,5 +144,6 @@ class RiddleGame:
 
 game = RiddleGame(filepath='requirements.txt')
 game.play()
+game.print_loaded_data()
 
     
