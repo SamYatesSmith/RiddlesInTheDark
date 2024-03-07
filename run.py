@@ -29,24 +29,26 @@ class RiddleGame:
         """
         try:
             with open(filepath, 'r') as file:
-                lines = file.readlines()
-
+                lines = file.read().split("\n")
+            
+            self.questions, self.answers, self.hints = [], [], []
             temp_hints = []
             for line in lines:
-                line = line.strip()
                 if line.startswith("Q: "):
-                    self.questions.append(line[3:])
+                    question_text = wrap_text(line[3:])
                     if temp_hints:
-                        self.hints.append(temp_hints)
+                        self.hints.append([wrap_text(hint) for hint in temp_hints])
                         temp_hints = []
+                    self.questions.append(question_text)
                 elif line.startswith("A: "):
-                    self.answer.append(line[3:])
+                    temp_hints = []
                 else:
-                    temp_hints.append(line)
+                    if line.strip():
+                        temp_hints.append(line)
             if temp_hints:
                     self.hints.append(temp_hints)
         except FileNotFoundError:
-            print("Error: The file path provided does not exist.  Please check the file path and give it another whirl.") 
+            print(wrap_text("Error: The file path provided does not exist.  Please check the file path and give it another whirl."))
 
     def choose_game_mode(self):
         """
@@ -60,10 +62,13 @@ class RiddleGame:
             self.player_names[0] = input(wrap_text("Enter name for Player 1: "))
             self.player_names[1] = input(wrap_text("Enter name for Player 2: "))
 
-    # def shuffle_questions(self):
-    #     """
-    #     Randomly shuffles the order of questions, answers
-    #     """
+    def shuffle_questions(self):
+        """
+        Randomly shuffles the order of questions, answers
+        """
+        combined = list(zip(self.questions, self.answers, self.hints))
+        random.shuffle(combined)
+        self.quesitons, self.answers, self.hints = zip(*combined)
 
     def get_user_input(self, prompt, valid_responses=None, lower=True):
         """
@@ -100,7 +105,7 @@ class RiddleGame:
         Dispalys a hint for the current riddle, shows the number of letters in the answer as underscores
         """
         letter_count_hint = "_" * len(answer)
-        print(wrap_text(f"Answer letter count: {letter_count_hint}"))
+        print(f"Answer letter count: {letter_count_hint}")
 
     def offer_hint(self, hint):
         """
@@ -120,7 +125,7 @@ class RiddleGame:
         hints_given = 0
 
         while True:
-            response = self.get_user_input(f"{self.player_names[self.current_player]}, type your answer (OR type 'hint' for a hint, 'skip' to Skip the question, remember, if you skip, you'll incur a 10 point penalty!)", lower = False)
+            response = self.get_user_input(f"{self.player_names[self.current_player]}, Type your answer (OR type 'hint' for a hint, 'skip' to Skip): ", lower = False)
             
             if response.lower() == 'hint':
                 if hints_given < len(hints):
@@ -146,14 +151,14 @@ class RiddleGame:
         Manages a single turn for a player by presenting them with a question
         """
         print(f"{self.player_names[self.current_player]}'s turn: ")
-        question, answer, hints = self.questions[player_number], self.answer[player_number], self.hints[player_number]
+        question, answer, hints = self.questions[player_number], self.answers[player_number], self.hints[player_number]
         self.handle_question(question, answer, hints)
 
     def next_player(self):
         """
-        Switches th ecurrent player in 2-player game mode
+        Switches the current player in 2-player game mode
         """
-        self.curreny_player = 1 - self.current_player
+        self.current_player = 1 - self.current_player
 
     def countdown(self):
         """
@@ -185,13 +190,13 @@ class RiddleGame:
         if self.player_mode == 1:
             # In single-player mode, simply iterate through the first 5 questions
             for i in range(questions_per_player):
-                print(f"Question {i+i} of {questions_per_player}: ")
+                print(f"Question {i+1} of {questions_per_player}: ")
                 self.handle_turn(i)
         else:
             # In two-player mode, ensure unique questions for each player by correctly calculating question index
             for i in range(questions_per_player * 2): 
                 current_question_index = i // 2 if i % 2 == 0 else (i // 2) + questions_per_player
-                print(f"{self.player_names[self.current_player]}'s turn (Question {current_question_index % questions_per_player + 1})")
+                print(f"{self.player_names[self.current_player]}'s turn (Question {current_question_index % questions_per_player + 1} of {questions_per_player}):")
                 self.handle_turn(current_question_index)
                 self.next_player()
         
@@ -201,7 +206,6 @@ class RiddleGame:
         """
         Wraps up the game by displaying the total scores and determining the winner
         """
-
     
     # def sudden_death(self):
     #     """
