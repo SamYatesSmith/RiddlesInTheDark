@@ -1,5 +1,5 @@
 import time
-# import sleep
+import sleep
 import textwrap
 
 def wrap_text(text, width=80):
@@ -48,14 +48,14 @@ class RiddleGame:
         except FileNotFoundError:
             print("Error: The file path provided does not exist.  Please check the file path and give it another whirl.")
 
-    def print_loaded_data(self):
-        for i, question in enumerate(self.questions):
-            print(f"Question {i+1}: {question}")
-            print(f"Answer: {self.answer[i]}")
-            print(f"Hints:")
-            for hint in self.hints[i]:
-                print(f" - {hint}")
-            print()    
+    # def print_loaded_data(self):
+    #     for i, question in enumerate(self.questions):
+    #         print(f"Question {i+1}: {question}")
+    #         print(f"Answer: {self.answer[i]}")
+    #         print(f"Hints:")
+    #         for hint in self.hints[i]:
+    #             print(f" - {hint}")
+    #         print()    
 
     def choose_game_mode(self):
         """
@@ -64,12 +64,10 @@ class RiddleGame:
         mode_input = input("Choose your game mode: Key '1' for Single player and '2' for 2 player. 1/2: ")
         self.player_mode = int(mode_input)
         if self.player_mode == 1:
-            name = input ("Enter your name: ")
-            self.player_names[0] = name
-        elif self.player_mode == 2:
-            name1 = input("Enter name for Player 1: ")
-            name2 = input("Enter name for Player 2: ")
-            self.player_names = [name1, name2]
+            name = input(wrap_text("Enter your name: "))
+        if self.player_mode == 2:
+            name1 = input(wrap_text("Enter name for Player 1: "))
+            name2 = input(wrap_text("Enter name for Player 2: "))
 
     # def shuffle_questions(self):
     #     """
@@ -125,10 +123,14 @@ class RiddleGame:
     #     Switches th ecurrent player in 2-player game mode
     #     """
 
-    # def countdown(self):
-    #     """
-    #     Displays a countdown from 3 to 1 to signal the beginning of the game
-    #     """
+    def countdown(self):
+        """
+        Displays a countdown from 3 to 1 to signal the beginning of the game
+        """
+        print("Get Ready!")
+        for i in range(3, 0, -1):
+            print(i)
+            time.sleep(1)
 
     # def play_game():
     #     """
@@ -150,12 +152,12 @@ class RiddleGame:
         Calls the method to play the game
         """
         self.display_intro_message()
-
+        self.choose_game_mode()
+        print(f"Game mode selected: {'Single Player' if game.player_mode == 1 else 'Two Players'}")
+        print(f"Player names: {game.player_names}")
+    
 
 game = RiddleGame(filepath='requirements.txt')
 game.play()
 # game.print_loaded_data()
-game.choose_game_mode()
-print(f"Game mode selected: {'Single Player' if game.player_mode == 1 else 'Two Players'}")
-print(f"Player names: {game.player_names}")
-    
+
