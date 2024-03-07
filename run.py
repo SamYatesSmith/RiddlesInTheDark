@@ -167,15 +167,30 @@ class RiddleGame:
             print(i)
             # time.sleep(1)
 
-    # def play_game():
-    #     """
-    #     Starts and manages games flow, from choosing the games mode to conclusion
-    #     """
+    def play_game(self):
+        """
+        Starts and manages games flow, from choosing the games mode to conclusion
+        """
+        self.turn = 0
+        self.current_question_index = 0
+        self.question_order = list(range(len(self.questions))) # keeps track of question order 
 
-    # def conclude_game(self):
-    #     """
-    #     Wraps up the game by dispalying the total scores and determining the winner
-    #     """
+        print("Starting the game...")
+        self.countdown()
+
+        while self.turn < len(self.questions):
+            print(f"\n{self.player_name[self.current_player]}'s turn: ")
+            self.handle_turn()
+            if self.player_mode == 1 or self.turn >= len(self.questions):  # End game if all questions are asked or in single-player mode
+                break
+
+        self.conclude_game()
+
+    def conclude_game(self):
+        """
+        Wraps up the game by displaying the total scores and determining the winner
+        """
+
     
     # def sudden_death(self):
     #     """
@@ -187,7 +202,7 @@ class RiddleGame:
         Calls the method to play the game
         """
         self.display_intro_message()
-        self.handle_question()
+        
         self.choose_game_mode()
         print(f"Game mode selected: {'Single Player' if game.player_mode == 1 else 'Two Players'}")
         print(f"Player names: {game.player_names}")
