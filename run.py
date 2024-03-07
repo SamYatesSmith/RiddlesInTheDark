@@ -98,7 +98,6 @@ class RiddleGame:
         )
         print(wrap_text(intro_message))
 
-
     def display_letter_count_hint(self, answer):
         """
         Dispalys a hint for the current riddle, shows the number of letters in the answer as underscores
@@ -106,16 +105,13 @@ class RiddleGame:
         letter_count_hint = "_" * len(answer)
         print(wrap_text(f"Answer letter count: {letter_count_hint}"))
 
-    def offer_hint(self):
+    def offer_hint(self, hint):
         """
         Hint management, increments score if hint is requested
         """
-        if len(self.hints[self.current_quesiton_index]) > self.hints_given:
-            self.player_scores[self.current_player] += 1
-            print(f"Hint: {self.hints[self.current_question_index][selfhints_given]}")
-            self.hints_given += 1
-        else:
-            print("No more hints available.")
+        self.player_scores[self.current_player] += 1
+        print(f"Hint: {hint}")
+        print(f"Hint used. Current points: {self.player_scores[self.current_player]}.")
 
     def handle_question(self, question, answer, hints):
         """
@@ -148,10 +144,14 @@ class RiddleGame:
                 print(f"Skipped.  This costs you 10 points.  Current point total: {self.player_scores[self.current_player]}")
                 break
 
-    # def handle_turn(self):
-    #     """
-    #     Manages a single turn for a player by presenting them woth a question
-    #     """
+    def handle_turn(self):
+        """
+        Manages a single turn for a player by presenting them woth a question
+        """
+        self.current_question_index = self.question_order[self.turn]
+        self.handle_question()
+        self.next_player()
+        self.turn += 1
 
     # def next_player(self):
     #     """
