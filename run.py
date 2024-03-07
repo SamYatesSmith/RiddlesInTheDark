@@ -57,10 +57,19 @@ class RiddleGame:
                 print(f" - {hint}")
             print()    
 
-    # def choose_game_mode(self):
-    #     """
-    #     Prompts the user to choose the game mode, either single player or two players. Enquire after player names.
-    #     """
+    def choose_game_mode(self):
+        """
+        Prompts the user to choose the game mode, either single player or two players. Enquire after player names.
+        """
+        mode_input = input("Choose your game mode: Key '1' for Single player and '2' for 2 player. 1/2: ")
+        self.player_mode = int(mode_input)
+        if self.player_mode == 1:
+            name = input ("Enter your name: ")
+            self.player_names[0] = name
+        elif self.player_mode == 2:
+            name1 = input("Enter name for Player 1: ")
+            name2 = input("Enter name for Player 2: ")
+            self.player_names = [name1, name2]
 
     # def shuffle_questions(self):
     #     """
@@ -142,8 +151,11 @@ class RiddleGame:
         """
         self.display_intro_message()
 
+
 game = RiddleGame(filepath='requirements.txt')
 game.play()
-game.print_loaded_data()
-
+# game.print_loaded_data()
+game.choose_game_mode()
+print(f"Game mode selected: {'Single Player' if game.player_mode == 1 else 'Two Players'}")
+print(f"Player names: {game.player_names}")
     
