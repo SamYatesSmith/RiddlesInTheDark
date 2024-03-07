@@ -1,5 +1,5 @@
 import time
-import sleep
+# import sleep
 import textwrap
 
 def wrap_text(text, width=80):
@@ -108,10 +108,29 @@ class RiddleGame:
     #     Hint management, increments score if hint is requested
     #     """
 
-    # def handle_question(self, question, answer, hints):
-    #     """
-    #     Handles logic for askign a question. Takes users response, provides hint and skips
-    #     """
+    def handle_question(self):
+        """
+        Handles logic for asking a question. Takes users response, provides hint and skips
+        """
+        question = self.questions[self.current_question_index]
+        answer = self.answers[self.current_question_index]
+        print(f"Question: {quesiton}")
+        self.display_letter_count_hint(answer)
+
+        self.hints_given = 0 
+        while True:
+            response = input(wrap_text("Your answer (OR type 'hint' for a hint, 'skip' to Skip the question, remember, if you skip, you'll incur a 10 point penalty!)"))
+            if response == 'hint':
+                self.offer_hint()
+            elif response == 'skip':
+                self.player_scores[self.current_player] += 10
+                break
+            elif response ==  answer.lower():
+                print("Correct answer!")
+                break
+            else:
+                self.player_scores[self.current_player] += 2
+                print("Incorrect.  Try again, or use a hint.")
 
     # def handle_turn(self):
     #     """
@@ -130,7 +149,7 @@ class RiddleGame:
         print("Get Ready!")
         for i in range(3, 0, -1):
             print(i)
-            time.sleep(1)
+            # time.sleep(1)
 
     # def play_game():
     #     """
@@ -152,6 +171,7 @@ class RiddleGame:
         Calls the method to play the game
         """
         self.display_intro_message()
+        self.handle_question()
         self.choose_game_mode()
         print(f"Game mode selected: {'Single Player' if game.player_mode == 1 else 'Two Players'}")
         print(f"Player names: {game.player_names}")
