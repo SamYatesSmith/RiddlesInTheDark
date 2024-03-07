@@ -1,4 +1,5 @@
 import time
+import random
 # import sleep
 import textwrap
 
@@ -98,17 +99,23 @@ class RiddleGame:
         print(wrap_text(intro_message))
 
 
-    # def display_letter_count_hint(self):
-    #     """
-    #     Dispalys a hint for the current riddle, shows the number of letters in the answer as underscores
-    #     """
+    def display_letter_count_hint(self, answer):
+        """
+        Dispalys a hint for the current riddle, shows the number of letters in the answer as underscores
+        """
+        letter_count_hint = "_" * len(answer)
+        print(wrap_text(f"Answer letter count: {letter_count_hint}"))
 
     def offer_hint(self):
         """
         Hint management, increments score if hint is requested
         """
-
-        
+        if len(self.hints[self.current_quesiton_index]) > self.hints_given:
+            self.player_scores[self.current_player] += 1
+            print(f"Hint: {self.hints[self.current_question_index][selfhints_given]}")
+            self.hints_given += 1
+        else:
+            print("No more hints available.")
 
     def handle_question(self, question, answer, hints):
         """
