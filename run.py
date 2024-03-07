@@ -1,6 +1,5 @@
 import time
 import random
-# import sleep
 import textwrap
 
 def wrap_text(text, width=80):
@@ -49,14 +48,14 @@ class RiddleGame:
         except FileNotFoundError:
             print("Error: The file path provided does not exist.  Please check the file path and give it another whirl.")
 
-    def print_loaded_data(self):
-        for i, question in enumerate(self.questions):
-            print(f"Question {i+1}: {question}")
-            print(f"Answer: {self.answer[i]}")
-            print(f"Hints:")
-            for hint in self.hints[i]:
-                print(f" - {hint}")
-            print()    
+    # def print_loaded_data(self):
+    #     for i, question in enumerate(self.questions):
+    #         print(f"Question {i+1}: {question}")
+    #         print(f"Answer: {self.answer[i]}")
+    #         print(f"Hints:")
+    #         for hint in self.hints[i]:
+    #             print(f" - {hint}")
+    #         print()    
 
     def choose_game_mode(self):
         """
@@ -75,10 +74,17 @@ class RiddleGame:
     #     Randomly shuffles the order of questions, answers
     #     """
 
-    # def get_user_input(self):
-    #     """
-    #     Gets user input with a specific prompt
-    #     """
+    def get_user_input(self, prompt, valid_responses=None, lower=True):
+        """
+        Gets user input with a specific prompt
+        """
+        while True:
+            user_input = input(prompt)
+            if lower:
+                user_input = user_input.lower()
+            if valid_responses is None or user_input in valid_responses:
+                return user_input
+            print(f"Invalid input.  Please enter one of the {valid_responses}.")
 
     def display_intro_message(self):
         """
@@ -146,12 +152,11 @@ class RiddleGame:
 
     def handle_turn(self):
         """
-        Manages a single turn for a player by presenting them woth a question
+        Manages a single turn for a player by presenting them with a question
         """
-        self.current_question_index = self.question_order[self.turn]
-        self.handle_question()
-        self.next_player()
-        self.turn += 1
+        print(f"{self.player_names[self.current_player]}'s turn: ")
+        question, answer, hints = self.questions[player_number], self.answers[player_number], self.hints[player_number]
+        self.handle_question(question, answer, hints)
 
     # def next_player(self):
     #     """
@@ -162,28 +167,42 @@ class RiddleGame:
         """
         Displays a countdown from 3 to 1 to signal the beginning of the game
         """
-        print("Get Ready!")
+        print("Starting in:")
         for i in range(3, 0, -1):
-            print(i)
-            # time.sleep(1)
+            print(f"{i}...")
+            time.sleep(1)
+        print("Go!\n")
+        time.sleep(2)
 
     def play_game(self):
         """
         Starts and manages games flow, from choosing the games mode to conclusion
         """
-        self.turn = 0
-        self.current_question_index = 0
-        self.question_order = list(range(len(self.questions))) # keeps track of question order 
+        self.display_intro_message()
+        self.choose_game_mode()
+        ready_prompt = "Ok, so are you ready to play? (yes/no): " if self.player_mode == 1 else "Ok, so are you both ready to play? (yes/no): "
+        ready = self.get_user_input(ready_prompt, ["yes", "no"], lower=True)
+        
+        if ready == "no":
+            print("Maybe next time?!")
+            return
 
-        print("Starting the game...")
         self.countdown()
 
-        while self.turn < len(self.questions):
-            print(f"\n{self.player_name[self.current_player]}'s turn: ")
-            self.handle_turn()
-            if self.player_mode == 1 or self.turn >= len(self.questions):  # End game if all questions are asked or in single-player mode
-                break
-
+        questions_per_player = 5
+        if self.player_mode == 1:
+            # In single-player mode, simply iterate through the first 5 questions
+            for i in range(questions_per_player):
+                print(f"Question {i+i} of {questions_per_player}: ")
+                self.handle_turn(i)
+        else:
+            # In two-player mode, ensure unique questions for each player by correctly calculating question index
+            for i in range(questions_per_player * 2): 
+                current_question_index = i // 2 if i % 2 == 0 else (i // 2) + questions_per_player
+                print(f"{self.player_names[self.current_player]}'s turn (Question {current_question_index % questions_per_player + 1})")
+                self.handle_turn(current_question_index)
+                self.next_player()
+        
         self.conclude_game()
 
     def conclude_game(self):
@@ -201,12 +220,7 @@ class RiddleGame:
         """
         Calls the method to play the game
         """
-        self.display_intro_message()
-        
-        self.choose_game_mode()
-        print(f"Game mode selected: {'Single Player' if game.player_mode == 1 else 'Two Players'}")
-        print(f"Player names: {game.player_names}")
-    
+        self.play_game()
 
 game = RiddleGame(filepath='requirements.txt')
 game.play()
