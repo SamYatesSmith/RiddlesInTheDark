@@ -48,14 +48,14 @@ class RiddleGame:
         except FileNotFoundError:
             print("Error: The file path provided does not exist.  Please check the file path and give it another whirl.")
 
-    # def print_loaded_data(self):
-    #     for i, question in enumerate(self.questions):
-    #         print(f"Question {i+1}: {question}")
-    #         print(f"Answer: {self.answer[i]}")
-    #         print(f"Hints:")
-    #         for hint in self.hints[i]:
-    #             print(f" - {hint}")
-    #         print()    
+    def print_loaded_data(self):
+        for i, question in enumerate(self.questions):
+            print(f"Question {i+1}: {question}")
+            print(f"Answer: {self.answer[i]}")
+            print(f"Hints:")
+            for hint in self.hints[i]:
+                print(f" - {hint}")
+            print()    
 
     def choose_game_mode(self):
         """
@@ -103,34 +103,43 @@ class RiddleGame:
     #     Dispalys a hint for the current riddle, shows the number of letters in the answer as underscores
     #     """
 
-    # def offer_hint(self):
-    #     """
-    #     Hint management, increments score if hint is requested
-    #     """
+    def offer_hint(self):
+        """
+        Hint management, increments score if hint is requested
+        """
 
-    def handle_question(self):
+        
+
+    def handle_question(self, question, answer, hints):
         """
         Handles logic for asking a question. Takes users response, provides hint and skips
         """
-        question = self.questions[self.current_question_index]
-        answer = self.answers[self.current_question_index]
-        print(f"Question: {quesiton}")
-        self.display_letter_count_hint(answer)
 
-        self.hints_given = 0 
+        print(f"Question for {self.player_names[self.current_player]}:", question)
+        self.display_letter_count_hint(answer)
+        hints_given = 0
+
         while True:
-            response = input(wrap_text("Your answer (OR type 'hint' for a hint, 'skip' to Skip the question, remember, if you skip, you'll incur a 10 point penalty!)"))
-            if response == 'hint':
-                self.offer_hint()
-            elif response == 'skip':
-                self.player_scores[self.current_player] += 10
-                break
-            elif response ==  answer.lower():
+            response = self.get_user_input(f"{self.player_names[self.current_player]}, type your answer (OR type 'hint' for a hint, 'skip' to Skip the question, remember, if you skip, you'll incur a 10 point penalty!)", lower = False)
+            
+            if response.lower() == 'hint':
+                if hints_given < len(hints):
+                    self.offer_hint(hints[hints_given])
+                    hints_given += 1
+                else:
+                    print("No more hints available.")
+                    break
+            elif response.lower() == answer.lower():
                 print("Correct answer!")
                 break
             else:
                 self.player_scores[self.current_player] += 2
-                print("Incorrect.  Try again, or use a hint.")
+                print(f"Incorrect.  Try again, or use a hint.  Your current score: {self.player_scores[self.current_player]}.")
+                
+            if response.lower() == "skip":
+                self.player_scores[self.current_player] += 10
+                print(f"Skipped.  This costs you 10 points.  Current point total: {self.player_scores[self.current_player]}")
+                break
 
     # def handle_turn(self):
     #     """
