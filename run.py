@@ -46,16 +46,7 @@ class RiddleGame:
             if temp_hints:
                     self.hints.append(temp_hints)
         except FileNotFoundError:
-            print("Error: The file path provided does not exist.  Please check the file path and give it another whirl.")
-
-    # def print_loaded_data(self):
-    #     for i, question in enumerate(self.questions):
-    #         print(f"Question {i+1}: {question}")
-    #         print(f"Answer: {self.answer[i]}")
-    #         print(f"Hints:")
-    #         for hint in self.hints[i]:
-    #             print(f" - {hint}")
-    #         print()    
+            print("Error: The file path provided does not exist.  Please check the file path and give it another whirl.") 
 
     def choose_game_mode(self):
         """
@@ -158,10 +149,11 @@ class RiddleGame:
         question, answer, hints = self.questions[player_number], self.answer[player_number], self.hints[player_number]
         self.handle_question(question, answer, hints)
 
-    # def next_player(self):
-    #     """
-    #     Switches th ecurrent player in 2-player game mode
-    #     """
+    def next_player(self):
+        """
+        Switches th ecurrent player in 2-player game mode
+        """
+        self.curreny_player = 1 - self.current_player
 
     def countdown(self):
         """
