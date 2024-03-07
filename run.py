@@ -61,13 +61,13 @@ class RiddleGame:
         """
         Prompts the user to choose the game mode, either single player or two players. Enquire after player names.
         """
-        mode_input = input("Choose your game mode: Key '1' for Single player and '2' for 2 player. 1/2: ")
-        self.player_mode = int(mode_input)
+        mode = input("Choose your game mode: Key '1' for Single player and '2' for 2 player. 1/2: ")
+        self.player_mode = int(mode)
         if self.player_mode == 1:
-            name = input(wrap_text("Enter your name: "))
+            self.player_names[0] = input(wrap_text("Enter your name: "))
         if self.player_mode == 2:
-            name1 = input(wrap_text("Enter name for Player 1: "))
-            name2 = input(wrap_text("Enter name for Player 2: "))
+            self.player_names[0] = input(wrap_text("Enter name for Player 1: "))
+            self.player_names[1] = input(wrap_text("Enter name for Player 2: "))
 
     # def shuffle_questions(self):
     #     """
@@ -150,12 +150,12 @@ class RiddleGame:
                 print(f"Skipped.  This costs you 10 points.  Current point total: {self.player_scores[self.current_player]}")
                 break
 
-    def handle_turn(self):
+    def handle_turn(self, player_number):
         """
         Manages a single turn for a player by presenting them with a question
         """
         print(f"{self.player_names[self.current_player]}'s turn: ")
-        question, answer, hints = self.questions[player_number], self.answers[player_number], self.hints[player_number]
+        question, answer, hints = self.questions[player_number], self.answer[player_number], self.hints[player_number]
         self.handle_question(question, answer, hints)
 
     # def next_player(self):
@@ -221,6 +221,10 @@ class RiddleGame:
         Calls the method to play the game
         """
         self.play_game()
+
+    def test_handle_question(self):
+        self.display_intro_message()  # Optional, for context
+        self.handle_question()
 
 game = RiddleGame(filepath='requirements.txt')
 game.play()
