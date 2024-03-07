@@ -14,7 +14,7 @@ class RiddleGame:
         Initialises the riddle game with riddles loaded from external file
         """
         self.questions = []
-        self.answer = []
+        self.answers = []
         self.hints = []
         self.player_scores = [0, 0]
         self.current_player = 0
@@ -31,16 +31,15 @@ class RiddleGame:
             with open(filepath, 'r') as file:
                 lines = file.read().split("\n")
             
-            self.questions, self.answers, self.hints = [], [], []
             temp_hints = []
             for line in lines:
                 if line.startswith("Q: "):
-                    question_text = wrap_text(line[3:])
                     if temp_hints:
-                        self.hints.append([wrap_text(hint) for hint in temp_hints])
+                        self.hints.append(temp_hints)
                         temp_hints = []
-                    self.questions.append(question_text)
+                    self.questions.append(line[3:])
                 elif line.startswith("A: "):
+                    self.answers.append(line[3:])
                     temp_hints = []
                 else:
                     if line.strip():
@@ -66,9 +65,10 @@ class RiddleGame:
         """
         Randomly shuffles the order of questions, answers
         """
+    def shuffle_questions(self):
         combined = list(zip(self.questions, self.answers, self.hints))
         random.shuffle(combined)
-        self.quesitons, self.answers, self.hints = zip(*combined)
+        self.questions, self.answers, self.hints = map(list, zip(*combined)) if combined else ([], [], [])
 
     def get_user_input(self, prompt, valid_responses=None, lower=True):
         """
@@ -146,13 +146,20 @@ class RiddleGame:
                 print(f"Skipped.  This costs you 10 points.  Current point total: {self.player_scores[self.current_player]}")
                 break
 
-    def handle_turn(self, player_number):
+    def handle_turn(self, question_index):
         """
         Manages a single turn for a player by presenting them with a question
         """
-        print(f"{self.player_names[self.current_player]}'s turn: ")
-        question, answer, hints = self.questions[player_number], self.answers[player_number], self.hints[player_number]
-        self.handle_question(question, answer, hints)
+        if question_index < len(self.questions):
+            print(f"{self.player_names[self.current_player]}'s turn: ")
+            question, answer, hints = self.questions[question_index], self.answers[question_index], self.hints[question_index]
+            self.handle_question(question, answer, hints)
+        else:
+            print("Error: Question index out of range.")
+
+        # print(f"{self.player_names[self.current_player]}'s turn: ")
+        # question, answer, hints = self.questions[player_number], self.answers[player_number], self.hints[player_number]
+        # self.handle_question(question, answer, hints)
 
     def next_player(self):
         """
@@ -177,6 +184,8 @@ class RiddleGame:
         """
         self.display_intro_message()
         self.choose_game_mode()
+        self.shuffle_questions()
+
         ready_prompt = "Ok, so are you ready to play? (yes/no): " if self.player_mode == 1 else "Ok, so are you both ready to play? (yes/no): "
         ready = self.get_user_input(ready_prompt, ["yes", "no"], lower=True)
         
@@ -206,7 +215,18 @@ class RiddleGame:
         """
         Wraps up the game by displaying the total scores and determining the winner
         """
-    
+        if self.player_mode == 1:
+            print(f"Game Over! {self.player_names[0]}, your total points: {self.player_scores[0]}.")
+        else:
+            print("Game Over!")
+            print(f"{self.player_names[0]}'s total points: {self.player_scores[0]}, {self.player_names[1]}'s total points: {self.player_scores[1]}.")
+            if self.player_scores[0] < self.player_scores[1]:
+                print(f"{self.player_names[0]} wins!")
+            elif self.player_scores[0] > self.player_scores[1]:
+                print(f"{self.player_names[1]} wins!")
+            else:
+                print("It's a tie!")
+
     # def sudden_death(self):
     #     """
     #     Initiates sudden death mode following a 2 player tie
@@ -218,11 +238,6 @@ class RiddleGame:
         """
         self.play_game()
 
-    def test_handle_question(self):
-        self.display_intro_message()  # Optional, for context
-        self.handle_question()
-
 game = RiddleGame(filepath='requirements.txt')
 game.play()
-# game.print_loaded_data()
 
