@@ -63,9 +63,8 @@ class RiddleGame:
 
     def shuffle_questions(self):
         """
-        Randomly shuffles the order of questions, answers
+        Randomly shuffles the order of questions and subsequent answers&hints
         """
-    def shuffle_questions(self):
         combined = list(zip(self.questions, self.answers, self.hints))
         random.shuffle(combined)
         self.questions, self.answers, self.hints = map(list, zip(*combined)) if combined else ([], [], [])
@@ -86,19 +85,29 @@ class RiddleGame:
         """
         Displays introductory message of the game, explains rules & how to play
         """
-        intro_message = (
-            "Welcome to Riddles in the Dark!\n\n"
 
-            "Riddles in the Dark is a short riddle based game.  In order to claim victory, the player must accrue as few points as possible. "
-            "Points are incremented by answering riddles incorrectly, asking for hints, using too many hints and skipping the current question.\n" 
-            "Players are allowed 5 hints per question.  These hints will accrue 1 point each.\n"
-            "However, if a player users more than 5 hints, they are punished with an incorrect answers' point value.\n"
-            "When a player answers incorrectly, they recieve 2 points.\n"
-            "When a player skips the question, they will recieve a 10 point penalty.\n"
-            "Players are provided with underscores which represent the number of letters in the answer.\n\n"
-            "Good luck, and Have fun!"
-        )
-        print(wrap_text(intro_message))
+    intro_message = (
+        "Welcome to Riddles in the Dark!\n\n"
+        "Riddles in the Dark is a short riddle based game. In order to claim victory, "
+        "the player must accrue as few points as possible. Points are incremented by "
+        "answering riddles incorrectly, asking for hints, using too many hints and skipping "
+        "the current question.\n\n"
+        "Players are allowed 5 hints per question. These hints will accrue 1 point each.\n\n"
+        "However, if a player uses more than 5 hints, they are punished with an incorrect "
+        "answer's point value.\n\n"
+        "When a player answers incorrectly, they receive 2 points.\n\n"
+        "When a player skips the question, they will receive a 10 point penalty.\n\n"
+        "Players are provided with underscores which represent the number of letters in the answer.\n\n"
+        "Good luck, and Have fun!\n\n"
+    )
+
+    # Split the message into paragraphs
+    paragraphs = intro_message.split('\n\n')
+
+    # Wrap each paragraph and then join them back with double newlines
+    wrapped_intro = '\n\n'.join(textwrap.fill(paragraph, width=80) for paragraph in paragraphs)
+
+    print(wrapped_intro)
 
     def display_letter_count_hint(self, answer):
         """
@@ -112,8 +121,8 @@ class RiddleGame:
         Hint management, increments score if hint is requested
         """
         self.player_scores[self.current_player] += 1
-        print(f"Hint: {hint}")
-        print(f"Hint used. Current points: {self.player_scores[self.current_player]}.")
+        print(warp_text(f"Hint: {hint}"))
+        print(wrap_text(f"Hint used. Current points: {self.player_scores[self.current_player]}."))
 
     def handle_question(self, question, answer, hints):
         """
