@@ -232,10 +232,14 @@ class RiddleGame:
             else:
                 print("It's a tie!")
 
-    # def sudden_death(self):
-    #     """
-    #     Initiates sudden death mode following a 2 player tie
-    #     """
+    def sudden_death(self):
+        """
+        Initiates sudden death mode following a 2 player tie
+        """
+        print(wrap_text(f"It's a tie! Both players have {self.player_scores[0]} points."))
+        print("Entering the Sudden Death round...")
+        print(wrap_text("Hints are disabled in Sudden Death.  A wrong answer means you loose.  Good luck!"))
+        
 
     def play(self):
         """
