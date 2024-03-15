@@ -53,8 +53,16 @@ class RiddleGame:
         """
         Prompts the user to choose the game mode, either single player or two players. Enquire after player names.
         """
-        mode = input("Choose your game mode: Key '1' for Single player and '2' for 2 player. 1/2: ")
-        self.player_mode = int(mode)
+        while True:
+            try:
+                mode = input(wrap_text("Choose your game mode: Key '1' for Single player and '2' for 2 player. 1/2: "))
+                self.player_mode = int(mode)
+                if self.player_mode not in [1, 2]:
+                    raise ValueError
+                break
+            except ValueError:
+                print(wrap_text("Invalid input. Please enter '1' for Single player game, or '2' for Two player game."))
+
         if self.player_mode == 1:
             self.player_names[0] = input("Enter your name: ")
         if self.player_mode == 2:
