@@ -100,11 +100,7 @@ class RiddleGame:
         "Players are provided with underscores which represent the number of letters in the answer.\n\n"
         "Good luck, and Have fun!\n\n"
     )
-
-    # Split the message into paragraphs
     paragraphs = intro_message.split('\n\n')
-
-    # Wrap each paragraph and then join them back with double newlines
     wrapped_intro = '\n\n'.join(textwrap.fill(paragraph, width=80) for paragraph in paragraphs)
 
     print(wrapped_intro)
@@ -214,7 +210,10 @@ class RiddleGame:
                 self.handle_turn(current_question_index)
                 self.next_player()
         
-        self.conclude_game()
+        if self.player_mode == 2 and self.player_scores[0] == self.player_scores[1]:
+            self.sudden_death()
+        else:
+            self.conclude_game()
 
     def conclude_game(self):
         """
@@ -239,7 +238,32 @@ class RiddleGame:
         print(wrap_text(f"It's a tie! Both players have {self.player_scores[0]} points."))
         print("Entering the Sudden Death round...")
         print(wrap_text("Hints are disabled in Sudden Death.  A wrong answer means you loose.  Good luck!"))
-        
+
+        asked_questions = 10
+        sudden_death_index = asked_questions
+
+        while sudden_death_index < len(self.questions):
+            for player_index in range(2):
+                self.current_player = player_index
+                print(f"\n{self.player_names[self.current_player]}'s turn: ")
+                question, answer = self.questions[sudden_death_index], self.answers[sudden_death_index]
+                print("Question: ", question)
+                self.display_letter_count_hint(answer)
+
+                response = self.get_user_input("Your answer: ", lower=False)
+
+                if response.lower() != answer.lower():
+                    print(wrap_text(f"Worng answer! {self.player_names[self.current_player]} loses."))
+                    winner = self.player_names[1 - self.current_player]
+                    print(wrap_text(f"Congratulations! {winner}, you won the game!  {winner} is the Riddle King."))
+                    return
+
+                sudden_death_index +=1
+                if sudden_death_index >= len(self.questions):
+                    print(wrap_text("Wow wow wow wow.  Theres some very accomplished riddling taking place here.  I hold my hands up and gracefully admit defeat.  Congratulations, you both beat me, so you both win!"))
+                    return
+
+            self.next_player()
 
     def play(self):
         """
