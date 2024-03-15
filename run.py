@@ -125,7 +125,7 @@ class RiddleGame:
         Hint management, increments score if hint is requested
         """
         self.player_scores[self.current_player] += 1
-        print(warp_text(f"Hint: {hint}"))
+        print(wrap_text(f"Hint: {hint}"))
         print(wrap_text(f"Hint used. Current points: {self.player_scores[self.current_player]}."))
 
     def handle_question(self, question, answer, hints):
@@ -148,11 +148,11 @@ class RiddleGame:
                     print("No more hints available.")
                     break
             elif response.lower() == answer.lower():
-                print("Correct answer!")
+                print("Correct answer!\n\n")
                 break
             else:
                 self.player_scores[self.current_player] += 2
-                print(wrap_text(f"Incorrect.  Try again, or use a hint.  Your current score: {self.player_scores[self.current_player]}."))
+                print(wrap_text(f"Incorrect.  Try again, or use a hint.  Your current score: {self.player_scores[self.current_player]}.\n\n"))
                 
             if response.lower() == "skip":
                 self.player_scores[self.current_player] += 10
