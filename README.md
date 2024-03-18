@@ -23,7 +23,7 @@ RITD used the following technologies:
 
 
 ## How to play
-
+- Game Link: https://riddlesinthedark-e09df88ee1fe.herokuapp.com/
 - Inititate Game via Heroku, follow instructions above.
 - Input your name
 - Select how many players are taking part, 1 or 2.

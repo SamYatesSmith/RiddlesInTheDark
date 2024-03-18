@@ -117,7 +117,7 @@ class RiddleGame:
         """
         Dispalys a hint for the current riddle, shows the number of letters in the answer as underscores
         """
-        letter_count_hint = "_" * len(answer)
+        letter_count_hint = " ".join("_" * len(answer))
         print(f"Answer letter count: {letter_count_hint}")
 
     def offer_hint(self, hint):
