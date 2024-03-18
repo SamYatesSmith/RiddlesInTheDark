@@ -55,7 +55,7 @@ class RiddleGame:
         """
         while True:
             try:
-                mode = input(wrap_text("Choose your game mode: Key '1' for Single player and '2' for 2 player. 1/2: "))
+                mode = input(wrap_text("Choose your game mode: Key '1' for Single player and '2' for 2 player. 1/2:\n"))
                 self.player_mode = int(mode)
                 if self.player_mode not in [1, 2]:
                     raise ValueError
@@ -64,10 +64,10 @@ class RiddleGame:
                 print(wrap_text("Invalid input. Please enter '1' for Single player game, or '2' for Two player game."))
 
         if self.player_mode == 1:
-            self.player_names[0] = input("Enter your name: ")
+            self.player_names[0] = input("Enter your name:\n")
         if self.player_mode == 2:
-            self.player_names[0] = input("Enter name for Player 1: ")
-            self.player_names[1] = input("Enter name for Player 2: ")
+            self.player_names[0] = input("Enter name for Player 1:\n")
+            self.player_names[1] = input("Enter name for Player 2:\n")
 
     def shuffle_questions(self):
         """
@@ -228,16 +228,26 @@ class RiddleGame:
         Wraps up the game by displaying the total scores and determining the winner
         """
         if self.player_mode == 1:
-            print(f"Game Over! {self.player_names[0]}, your total points: {self.player_scores[0]}.")
+            if self.player_scores[0] == 0:
+                print(wrap_text(f"Flawless Victory! Incredible effort, {self.player_names[0]}. You're a riddle hero! Gollum would stand no chance!"))
+            else:
+                print(f"Game Over! {self.player_names[0]}, your total points: {self.player_scores[0]}.")
         else:
             print("Game Over!")
-            print(f"{self.player_names[0]}'s total points: {self.player_scores[0]}, {self.player_names[1]}'s total points: {self.player_scores[1]}.")
+            print(wrap_text(f"{self.player_names[0]}'s total points: {self.player_scores[0]}, {self.player_names[1]}'s total points: {self.player_scores[1]}."))
             if self.player_scores[0] < self.player_scores[1]:
-                print(f"{self.player_names[0]} wins!")
+                if self.player_scores[0] == 0:
+                    print(wrap_text(f"Flawless Victory! Incredible effort, {self.player_names[0]}. You're a riddle hero! Gollum would stand no chance!"))
+                else:
+                    print(f"{self.player_names[0]} wins!")
             elif self.player_scores[0] > self.player_scores[1]:
-                print(f"{self.player_names[1]} wins!")
+                if self.player_scores[1] == 0:
+                    print(wrap_text(f"Flawless Victory! Incredible effort, {self.player_names[1]}. You're a riddle hero! Gollum would stand no chance!"))
+                else:
+                    print(f"{self.player_names[1]} wins!")
             else:
                 print("It's a tie!")
+
 
     def sudden_death(self):
         """
@@ -279,6 +289,6 @@ class RiddleGame:
         """
         self.play_game()
 
-game = RiddleGame(filepath='requirements.txt')
+game = RiddleGame(filepath='riddleshintsanswers.txt')
 game.play()
 

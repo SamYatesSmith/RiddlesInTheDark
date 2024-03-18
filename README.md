@@ -67,7 +67,7 @@ RITD used the following technologies:
 
 ## Further Development Opportunities
 
-- Within 2 player ,the sudden death is unblanced.  I need to build a timer into the main game so that the player wh otook the longest to answer their questions owuld go first, thus recieving a lesser chance to get the 1st answer correct and subseequnetly losing the game. 
+- Within 2 player ,the sudden death is unblanced.  I need to build a timer into the main game so that the player who took the longest to answer their questions owuld go first, thus recieving a lesser chance to get the 1st answer correct and subseequnetly losing the game. 
 - Design and build a GUI
 - Allow for online multiplayer
 - All time high scores leaderboard
