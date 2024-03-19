@@ -61,7 +61,7 @@ RITD used the following technologies:
 ## Preliminary considerations and planning 
 
 - Flow diagram: 
-
+ <img src="https://github.com/assets/images/Riddle Game Procedure.png">
 
 ## Deployment
 
