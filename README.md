@@ -90,11 +90,11 @@ RITD was subjected to a comprehensive suite of tests.  This is to ensure all ele
 ### text_wrap
 text_wrap is a simple function to prevent the character length of the programs text exceeding 79 characters.  This is simply imposed owing to the requirement of the deployment environment provided by Code Institute. The expected outcome of this test was to ensure that the function correctly wraps the text to the specified length. 
 
-<img src=testing1>
+<img src="https://github.com/SamYatesSmith/RiddlesInTheDark/blob/main/assets/images/testing1.text_wrap.png">
 
 ### Initialisations and loading questions
 
-<img src=testing2>
+<img src="https://github.com/SamYatesSmith/RiddlesInTheDark/blob/main/assets/images/testing2.Initialisations.loading_questions.png">
 
 The initialisation class test checks the following: 
 1. Player scores: When the game starts, both players should have 0 points, the test therefore needs to ensure that this is the case. 
@@ -114,8 +114,8 @@ Result: OK
 ### Choosing game mode
 As this fucntion relies on user input, I needed to create another mock identity to simulate input o ngame mode preference and name.  unittest.mock.patch can be used to replace the input function with a mock, as per the previous test.  The goal of this test is to ensure all works ok, using a simulated user and aentering their name.
 
-<img src=testing3>
-<img src=testing3.ok>
+<img src="https://github.com/SamYatesSmith/RiddlesInTheDark/blob/main/assets/images/testing3.%20testgamemodes.png">
+<img src="https://github.com/SamYatesSmith/RiddlesInTheDark/blob/main/assets/images/testing3.ok.png">
 
 - Explaining the above tests;
 - @patch Decorator modifies input function during this test so when input is caleld it returns the next value from the 'side_effect' list. Simulates user typing '1' or '2' to choose the game mode, followed by the player names.
@@ -134,12 +134,12 @@ As this fucntion relies on user input, I needed to create another mock identity 
 2. Invalid followed by valid: Simulating an invalid input followed by a valid input and ensuring that the function eventually returns the corerct/valid input.
 3. Case sensitivity: Testing how the 'lower' parameter handles input.
 
-<img src=testing4.userinput>
+<img src="https://github.com/SamYatesSmith/RiddlesInTheDark/blob/main/assets/images/testing4.userinput.png">
 
 ### Display_letter_count_hint
 This function captures the number of letters in an answer and converts it to underscores.  To test it, I needed to capture the output to 'stdout' and compare it to my expectations. I used the import unittest.mock for this to be achieved.   
 
-<img src=testing5>
+<img src="https://github.com/SamYatesSmith/RiddlesInTheDark/blob/main/assets/images/testing5.lettercounthint.png">
 
 *Key Points*: 
 1. Mocking 'sys.stdout': This approach used @patch to mock 'sys.stdout', effectively redirecting output sent to the terminal to a 'StringIO' onbject.  This object acts like a file that can capture written strings, allowing me to inspectwhat would have been printed to the terminal.
@@ -149,7 +149,7 @@ This function captures the number of letters in an answer and converts it to und
 ### Offer Hint
 offer_hint increments the users score by one.  I ts primary function however is to provide the user with one of the pre-listed hinbts which are associated with the various questions.  The function needed to capture the incrementation of the players current score and to provide the hint requested by the user. I again used the unittest.mock.patch to redirect sys.stdout ot a StringIO object for capturing those print statements.  
 
-<img src=testing6>
+<img src="https://github.com/SamYatesSmith/RiddlesInTheDark/blob/main/assets/images/testing6.offerhint.png">
 
 *Key Points*: 
 1. Score verification: The test first looks at the initial score of the player.  After calling 'offer_hint', it checks that the players score has incremented by 1. 
@@ -168,7 +168,7 @@ I had to test the handle question in 4 simple/seperate ways:
 
 An example of the testing performed on the correct answer element of this function: 
 
-<img src=testing7>
+<img src="https://github.com/SamYatesSmith/RiddlesInTheDark/blob/main/assets/images/testing7.handlequestion.png">
 
 ### Play_Game
 
@@ -189,7 +189,7 @@ These are my considerations when testing 'play_game':
 ### Integrating .txt file
 - I wanted to simple, easy to adjust system for integrating the library of riddles.  This was tricky as i was unsure how to persuade Python to read the riddles, answers and x5 hints.  I implemented the code within the initialisations, the load_questions and shuffle_quesitons functions.  Initially, it took me a long time to ensure that the code correctly read the .txt file and therefore needed to list pointers for the code t ofind as per the load_quesitons funciton: 
 
-<img src=testing8>
+<img src="https://github.com/SamYatesSmith/RiddlesInTheDark/blob/main/assets/images/testing8.loadingquestions.png">
 
 ### Scoring
 - The scoring incrementation and recording was problematic.  There are a number of way to concede points and tying these together took me some time and research. Initially i was listing the questions, answers and hints as seperate numbered sections, as opposed t ogroups including hteir own relevancies, Q, A and H's.  I adjusted load_questions to corectly read and associate each question with its corresponding answer/hint as groups.  The solution was to emply a parsing strategy that grouped the elements of the question together and looked out for expected elements as pointers, such as Q: or A: etc.  The hints needed to be parsed line by line to ensure all 5 were available. 
@@ -202,7 +202,7 @@ Initially I struggled to implement the hint system.  After various efforts, I im
 
 Code Institute Python Linter PEP8 code review: 
 
-<img src=pep8linter>
+<img src="https://github.com/SamYatesSmith/RiddlesInTheDark/blob/main/assets/images/clilinterpep8test.png">
 
 ## Website Sources 
 
