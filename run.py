@@ -195,7 +195,8 @@ class RiddleGame:
                 print(
                     wrap_text(
                         f"Incorrect.  Try again, or use a hint.  Your current "
-                        f"score: {self.player_scores[self.current_player]}.\n\n"
+                        f"score: {self.player_scores[self.current_player]}."
+                        "\n\n"
                     )
                 )
 
@@ -298,8 +299,8 @@ class RiddleGame:
                 print(
                     wrap_text(
                         f"Flawless Victory! Incredible effort, "
-                        f"{self.player_names[0]}. You're a riddle hero! Gollum "
-                        f"would stand no chance!"
+                        f"{self.player_names[0]}. You're a riddle hero! Gollum"
+                        f" would stand no chance!"
                     )
                 )
             else:
