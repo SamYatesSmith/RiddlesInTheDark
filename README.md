@@ -202,7 +202,7 @@ Initially I struggled to implement the hint system.  After various efforts, I im
 
 Code Institute Python Linter PEP8 code review: 
 
-<img src="https://github.com/SamYatesSmith/RiddlesInTheDark/blob/main/assets/images/clilinterpep8test.png">
+<img src="https://github.com/SamYatesSmith/RiddlesInTheDark/blob/main/assets/images/cilinterpep8test.png">
 
 ## Website Sources 
 
