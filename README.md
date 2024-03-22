@@ -64,7 +64,20 @@ RITD used the following technologies:
 ## Deployment
 
 - Program deployed on Heroku: https://www.heroku.com/
-- 
+1. Log into Heroku, or create a free account
+2. Copy repository from Git: https://github.com/SamYatesSmith/RiddlesInTheDark.git
+3. On Heroku, navigate to "Create new app"
+4. No environment variables are required for this deployment.
+5. No requirement for gitignore inclusions.
+6. Navigate to "buildpacks"
+7. Add Python to the buildpack list
+8. Add node.js underneath, ensuring oreder is as listed here. 
+9. Navigate to deploy section.
+10. Connect to github and serch for github repository name
+11. Click connect.
+12. Choose to deploy using main branch.
+13. view deployment once app is built.  
+14. Enjoy!
 
 ## Further Development Opportunities
 
@@ -77,8 +90,9 @@ RITD used the following technologies:
 
 # Testing
 
+
 ### Overview
-RITD was subjected to a comprehensive suite of tests.  This is to ensure all elements of the project perform as expected to supply a smooth, bug free experience for the user.  The below section outlines the tests perfromed, on which functions and the outcome of those tests.  Furthermore, I will list issues I experienced and how they were resolved.  I wanted to ensure that the tests were perfromed in a rigourous manner so i wrote classes and functions to test the majority of modules.  Priamrily I had prior knowledge as to how to test each function and so wanted to further my knowledge by writing these individual functions to ensure the principles involved were understood.  I fee lconfident in the testing evaluations carried out and therefore, am happy with the results.  
+RITD was subjected to a set of pre-build test before functionality tests.  This is to ensure all elements of the project perform as expected to supply a smooth, positive experience for the user.  The below section outlines the tests perfromed, on which functions and the outcome of those tests.  Furthermore, I will list issues I experienced and how they were resolved.  I wanted to ensure that the tests were perfromed in a rigourous manner so I wrote classes and functions to test the majority of functions.  Priamrily I had prior knowledge as to how to test each function and so wanted to further my knowledge by writing these individual test functions to ensure the principles involved were understood and the eventual functions were resilient in nature. Given much of the project was built under difficult circumstances owing to an unstable internet connection, I pre-built and then constructed the project in an offline IDE, VSCode, then re-writing online with GitPod.
 
 ### All Imports used
 - import: unittest 
@@ -88,7 +102,7 @@ RITD was subjected to a comprehensive suite of tests.  This is to ensure all ele
 ### Functions tested
 
 ### text_wrap
-text_wrap is a simple function to prevent the character length of the programs text exceeding 79 characters.  This is simply imposed owing to the requirement of the deployment environment provided by Code Institute. The expected outcome of this test was to ensure that the function correctly wraps the text to the specified length. 
+text_wrap is a simple function to prevent the character length of the programs text exceeding 79 characters.  This is simply imposed owing to the requirement of the deployment environment provided by Code Institute. The expected outcome of this test was to ensure that the function correctly wrapped the text to the specified length. 
 
 <img src="https://github.com/SamYatesSmith/RiddlesInTheDark/blob/main/assets/images/testing1.text_wrap.png">
 
@@ -96,15 +110,15 @@ text_wrap is a simple function to prevent the character length of the programs t
 
 <img src="https://github.com/SamYatesSmith/RiddlesInTheDark/blob/main/assets/images/testing2.Initialisations.loading_questions.png">
 
-The initialisation class test checks the following: 
+*The initialisation class test checked the following:* 
 1. Player scores: When the game starts, both players should have 0 points, the test therefore needs to ensure that this is the case. 
-2. Current player: checks if the game is set to start with the first player, so game.curent_player shouold be [0].
+2. Current player: checks if the game is set to start with the first player, so game.curent_player should be [0].
 3. Player mode: verifies that game starts in single player mode by default, indicated in the test by game_player_mode being 1. 
 4. Player name: Checks if the default name for the players are set to "Player 1, Player 2".
 5. Questions, Answers, Hints: Verifies that the lsits for questions, answers and hints are empty([]) when the game is first started because no questions have yet been loaded. 
 
-Loading quesitons
-This test checks if the game correctly loads questions and their accompanying elements from the local file, riddleshintsanswers.txt.  However, isntead of reading from a file, which would slow the test down, it uses a test feature called 'mocking'.  Heres what hapens within this test: 
+*Loading quesitons:*
+This test checks if the game will correctly load questions and their accompanying elements from the local file, riddleshintsanswers.txt.  However, isntead of reading from a file, which would slow the test down, it uses a test feature called 'mocking'.  Heres what hapens within this test: 
 1. Mocking the file: The @patch part before the method emulates the input of a user by mimmicking potential response.
 2. Loading questions: the test then creates a new game object but this time, it loads from the 'mimmicked' file (using 'dummy_path.txt') as the file path, but the path isn't relevant because of the mocking. 
 3. Checking results:  After pretending to load the file, it checks if the game now has a quesiton loaded ('Quesiton1'), one answer ('Answer1') and one hint (['Hint1']).  Essentially, test is making sure that the game is correctly reading the file.
@@ -112,13 +126,13 @@ This test checks if the game correctly loads questions and their accompanying el
 Result: OK
 
 ### Choosing game mode
-As this fucntion relies on user input, I needed to create another mock identity to simulate input o ngame mode preference and name.  unittest.mock.patch can be used to replace the input function with a mock, as per the previous test.  The goal of this test is to ensure all works ok, using a simulated user and aentering their name.
+As this fucntion relies on user input, I needed to create another mock identity to simulate input on game mode preference and name.  unittest.mock.patch can be used to replace the input function with a mock, as per the previous test.  The goal of this test is to ensure all works ok, using a simulated user and aentering their name.
 
 <img src="https://github.com/SamYatesSmith/RiddlesInTheDark/blob/main/assets/images/testing3.%20testgamemodes.png">
 <img src="https://github.com/SamYatesSmith/RiddlesInTheDark/blob/main/assets/images/testing3.ok.png">
 
 - Explaining the above tests;
-- @patch Decorator modifies input function during this test so when input is caleld it returns the next value from the 'side_effect' list. Simulates user typing '1' or '2' to choose the game mode, followed by the player names.
+- @patch Decorator modifies input function during this test so when input is called it returns the next value from the 'side_effect' list. Simulates user typing '1' or '2' to choose the game mode, followed by the player names.
 - 'side_effect': This is used with @patch to specify a list of values that 'input' will return each time its called within the test.
 - Assertions: After calling 'choose_game_mode, we check, or assert, the the game state, like player_mode and name matches what I'd expect given the mocked inputs.  
 
@@ -195,8 +209,7 @@ These are my considerations when testing 'play_game':
 - The scoring incrementation and recording was problematic.  There are a number of way to concede points and tying these together took me some time and research. Initially i was listing the questions, answers and hints as seperate numbered sections, as opposed t ogroups including hteir own relevancies, Q, A and H's.  I adjusted load_questions to corectly read and associate each question with its corresponding answer/hint as groups.  The solution was to emply a parsing strategy that grouped the elements of the question together and looked out for expected elements as pointers, such as Q: or A: etc.  The hints needed to be parsed line by line to ensure all 5 were available. 
 
 ### Hints
-
-Initially I struggled to implement the hint system.  After various efforts, I implemented the system of the user inputting 'hint' to request a hint.  This therefore gave me the opportunity to penalise the user for the hint, thus making the game more engaging and offering another opportunity for incrementation. I also had to ensure the program penalised the user if they took over the maximum number of 5 hints, and they were subsequently charged 10 points.  Keeping track of the various element sof incrementation throughout the program proved difficult and took me a long time to write the correct code in the correct place to ensure my bugs were ironed out.
+- Initially I struggled to implement the hint system.  After various efforts, I implemented the system of the user inputting 'hint' to request a hint.  This therefore gave me the opportunity to penalise the user for the hint, thus making the game more engaging and offering another opportunity for incrementation. I also had to ensure the program penalised the user if they took over the maximum number of 5 hints, and they were subsequently charged 10 points.  Keeping track of the various element sof incrementation throughout the program proved difficult and took me a long time to write the correct code in the correct place to ensure my bugs were ironed out.
 
 ## Validator Approval
 
@@ -206,9 +219,72 @@ Code Institute Python Linter PEP8 code review:
 
 ## Website Sources 
 
+### stdout
+- https://www.geeksforgeeks.org/python-testing-output-to-stdout/ - testing with standard output.  Testing whether inputs relate to outputs. In conjunction with 
+
+###unittest.mock + patch function.
+- https://www.geeksforgeeks.org/stringio-module-in-python/
+
+### "StringIO"
+- https://www.askpython.com/python/string/stringio-in-python3 
+
+### "time" import:
+- https://docs.python.org/3/library/time.html
+- https://realpython.com/python-time-module/
+
+### "random" import
+- https://www.pythonforbeginners.com/random/how-to-use-the-random-module-in-python
+
+### "textwrap"
+- https://docs.python.org/3/library/textwrap.html
+
+### ".join() method"
+- https://programiz.com/python-programming/methods/string/join
+
+### Exceptions, "ValueError"
+- https://docs.python.org/3/library/exceptions.html
+
+### Pure function: "map"
+- https://realpython.com/python-map-function/
+- https://en.wikipedia.org/wiki/Map_(higher-order_function)
+- https://en.wikipedia.org/wiki/Iterator
+
+### "Zip" reminder
+- https://realpython.com/python-zip-function/
+- https://docs.python.org/3/library/functions.html#zip
+
+### lower()
+- https://www.geeksforgeeks.org/isupper-islower-lower-upper-python-applications/
+
+### Input further reading
+-https://www.copahost.com/blog/input-python/#:~:text=The%20module%20bool%20includes%20functions,(%22Entry%20is%20not%20valid!
+
+### unittest.mock
+- https://docs.python.org/3/library/unittest.mock.html
+
+### .split()
+- https://www.freecodecamp.org/news/how-to-split-a-string-in-python/
+- https://www.programiz.com/python-programming/methods/string/split
+
+### Better understanding Quiz logic
+-https://realpython.com/python-quiz-application/
+
+### Genreal reading
+- https://www.geeksforgeeks.org/python-program-for-word-guessing-game/
+- https://stackoverflow.com/questions/136069/python-web-development-with-or-without-a-framework
+- https://www.nimbleappgenie.com/blogs/python-frameworks/
+
+### .range()
+- https://www.programiz.com/python-programming/methods/built-in/range
+
 ## Unfixed Bugs
+
+I am not aware of any bugs that require attention.
 
 ## Feedback
 
+Please send any feedback via Githuib.
+
 ## Credits
 
+built by Sam Yates-Smith 2024

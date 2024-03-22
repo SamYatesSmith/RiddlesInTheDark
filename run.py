@@ -15,13 +15,13 @@ class RiddleGame:
         """
         Initialises the riddle game with riddles loaded from external file
         """
-        self.questions = []
-        self.answers = []
-        self.hints = []
-        self.player_scores = [0, 0]
-        self.current_player = 0
-        self.player_mode = 1
-        self.player_names = ["Player 1", "Player 2"]
+        self.questions = []  # Quesitons list
+        self.answers = []  # Corresponding nswers
+        self.hints = []  # Associated hints
+        self.player_scores = [0, 0]  # Scores for players
+        self.current_player = 0  # Tracks current player
+        self.player_mode = 1  # Single player default
+        self.player_names = ["Player 1", "Player 2"]  # Default names
         if filepath:
             self.load_questions(filepath)
 
@@ -35,6 +35,7 @@ class RiddleGame:
 
             temp_hints = []
             for line in lines:
+                # Identify and categorise lines as Q, A and Hints
                 if line.startswith("Q: "):
                     if temp_hints:
                         self.hints.append(temp_hints)
@@ -44,6 +45,7 @@ class RiddleGame:
                     self.answers.append(line[3:])
                     temp_hints = []
                 else:
+                    # Non-empty lines are considered hints
                     if line.strip():
                         temp_hints.append(line)
             if temp_hints:
@@ -61,6 +63,7 @@ class RiddleGame:
         Prompts the user to choose the game mode, either single player or two
         players. Enquire after player names.
         """
+        # Loop until valid game mode is selected
         while True:
             try:
                 mode = input(
@@ -81,6 +84,7 @@ class RiddleGame:
                     )
                 )
 
+        # Set player names based on chosen mode
         if self.player_mode == 1:
             self.player_names[0] = input("Enter your name:\n")
         if self.player_mode == 2:
@@ -177,6 +181,7 @@ class RiddleGame:
             response = self.get_user_input(
                 f"{self.player_names[self.current_player]}, Type your answer "
                 f"(OR type 'hint' for a hint, 'skip' to Skip): ",
+                # Handling repsonses
                 lower=False,
             )
 
@@ -294,6 +299,7 @@ class RiddleGame:
         Wraps up the game by displaying the total scores and determining the
         winner
         """
+        # Single player mode conclusion
         if self.player_mode == 1:
             if self.player_scores[0] == 0:
                 print(
@@ -308,7 +314,7 @@ class RiddleGame:
                     f"Game Over! {self.player_names[0]}, your total points: "
                     f"{self.player_scores[0]}."
                 )
-        else:
+        else:  # Multiplayer mode conclusion
             print("Game Over!")
             print(
                 wrap_text(
